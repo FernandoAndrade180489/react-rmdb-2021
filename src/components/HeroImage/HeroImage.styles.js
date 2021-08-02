@@ -5,8 +5,7 @@ export const Wrapper = styled.div`
       to bottom,
       rgba(0, 0, 0, 0) 41%,
       rgba(0, 0, 0, 0.65) 100%
-    ),
-    url(${({ image }) => image}), var(--darkGrey);
+    ), url(${({ image }) => image}), var(--darkGrey);
   // or url(${(prop) => prop.image})
 
   background-size: 100%, cover;
@@ -57,6 +56,6 @@ export const Text = styled.div`
   }
 
   @media screen and (max-width: 720px) {
-    max-width: 100%;
+      max-width: 100%;
   }
 `;
