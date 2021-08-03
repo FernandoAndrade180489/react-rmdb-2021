@@ -13,13 +13,13 @@ import { useHomeFetch } from "../hooks/useHomeFetch";
 import NoImage from "../images/no_image.jpg";
 
 const Home = () => {
-  const { state, loading, error, setSearchTerm } = useHomeFetch(); // Call custom hook
+  const { state, loading, error, searchTerm, setSearchTerm } = useHomeFetch(); // Call custom hook
 
   console.log(state);
 
   return (
     <>
-      {state.results[0] ? (
+      {!searchTerm && state.results[0] ? (    // !seachTerm will show Hero Image when there is no search movie
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}
           title={state.results[0].original_title}
@@ -27,7 +27,7 @@ const Home = () => {
         />
       ) : null}
       <SearchBar setSearchTerm={setSearchTerm} />
-      <Grid header="Popular Movies">
+      <Grid header={searchTerm ? "Search Result" : "Popular Movies"}>
         {state.results.map((movie) => (
           <Thumb
             key={movie.id}
