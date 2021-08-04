@@ -24,6 +24,7 @@ export const useHomeFetch = () => {
       setError(false);
       setLoading(true);
 
+      // Call API whith searchTerm and page.
       const movies = await API.fetchMovies(searchTerm, page);
       // console.log(movies);
 
@@ -47,7 +48,7 @@ export const useHomeFetch = () => {
   // Load More
   useEffect(() => {
     if(!isLoadingMore) return;
-    
+
     fetchMovies(state.page + 1, searchTerm);
     setIsLoadingMore(false);
   }, [isLoadingMore, searchTerm, state.page])
