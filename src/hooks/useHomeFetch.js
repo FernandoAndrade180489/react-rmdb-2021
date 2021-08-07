@@ -1,22 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 // API
 import API from "../API";
+// Helpers
+import { isPersistedState } from "../helpers";
 
 const initialState = {
-    page: 0,
-    results: [],
-    total_pages: 0,
-    total_results: 0,
-}
+  page: 0,
+  results: [],
+  total_pages: 0,
+  total_results: 0,
+};
 
 export const useHomeFetch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  console.log(searchTerm)
+  console.log(searchTerm);
 
   // function for loading Data from API called by useEffect Rooker
   const fetchMovies = async (page, searchTerm = "") => {
@@ -41,17 +43,33 @@ export const useHomeFetch = () => {
 
   // Inicial and search
   useEffect(() => {
+    // Check if it's nos a search movie retrieve and if user has session Storage data to retrieve
+    if (!searchTerm) {
+      const sessionState = isPersistedState("homeState");
+
+      if (sessionState) {
+        console.log("Grabbing from sessionStorage");
+        setState(sessionState);
+        return;
+      }
+    }
+    console.log("Grabbing from API");
     setState(initialState);
     fetchMovies(1, searchTerm); // Call function fetchMovies
   }, [searchTerm]);
 
   // Load More
   useEffect(() => {
-    if(!isLoadingMore) return;
+    if (!isLoadingMore) return;
 
     fetchMovies(state.page + 1, searchTerm);
     setIsLoadingMore(false);
-  }, [isLoadingMore, searchTerm, state.page])
+  }, [isLoadingMore, searchTerm, state.page]);
+
+  // Write to sessionStorage
+  useEffect(() => {
+    if (!searchTerm) sessionStorage.setItem("homeState", JSON.stringify(state));
+  }, [searchTerm, state]);
 
   return { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore }; // It returns { state:state ... } key with same name of value
 };
