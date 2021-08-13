@@ -33,7 +33,7 @@ export const useMovieFetch = (movieId) => {
       }
     };
 
-    // Check if has sessionState otherwise, fetch API
+    // Check if has session Movie storage otherwise, fetch API
     const sessionState = isPersistedState(movieId);
 
     if (sessionState) {
