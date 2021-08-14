@@ -16,7 +16,9 @@ Click JoinTMDB and create one account.
 
 Open Profile settings > API and generate API Key
 
-### Create `.env.local` file and paste `REACT_APP_API_KEY = <Your API Key from TMDB>`
+### Connect API to project
+
+Create `.env.local` file and paste `REACT_APP_API_KEY = <Your API Key from TMDB>`
 
 ### `npm start`
 
